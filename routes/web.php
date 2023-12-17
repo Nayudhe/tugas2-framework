@@ -1,7 +1,9 @@
 <?php
-use App\Models\Blog;
-use App\Models\Post;
+
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Artikelcontroller;
+use App\Http\Controllers\BlogController;
+use App\Models\Blog;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,73 +17,66 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view ('home', [
-        "title" => "Home"
+    return view('home');
+});
+Route::get('/nama', function () {
+    return ('Afifah Fauziah');
+});
+Route::get('/nim', function () {
+    return ('21.31.0004');
+});
+Route::get('index', function () {
+    return view('layouts/index');
+});
+
+Route::get('/home', function () {
+    return view('home');
+});
+
+Route::get('/about', function () {
+    return view('about');
+});
+
+
+Route::get('/blog', [Artikelcontroller::class, 'index'])->name('artikel.index');
+Route::get('/detail/{id}', [Artikelcontroller::class, 'detail'])->name('artikel.detail');
+
+// Route::get('/blog', function () {
+//     return view('blog', [
+//         "title" => "blog"
+//     ]);
+// });
+
+Route::get('/', function () {
+    return view('home', [
+        "title" => "home"
     ]);
 });
 
+// Route::get('/blog2', function () {
+//     return view('blog2', [
+//         "title" => "post",
+//         "posts" => blog::all()
+//     ]);
+// });
 
-Route::get('/About', function () {
-    return view('about', [
-        "title" => "About",
-        "name" => "Nayudhe Sania Anako",
-        "email"=> "nayudhesania@gmail.com",
-        "image"=> "me.jpeg"
+// Route::get('/blog2/{slug}', function ($slug) {
 
-    ]);
-});
+//     return view('post', [
+//         "title" => "Single Post",
+//         "post" =>Blog::getBySlack($slug)
+//     ]);
+// });
 
-
-
-Route::get('/blog', function () { 
-    $blog_post = [
-        [
-            "title" => "Judul Post Pertama",
-            "slug" => "judul-post-pertama",
-            "author" => "Nayudhe Sania Anako",
-            "body" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit quasi ipsa 
-            praesentium ratione eligendi quo deleniti culpa eum accusamus neque assumenda, 
-            kiero quod minus deserunt obcaecati non sint ipsam. Veritatis vitae rem quam magni ipsa sapiente a, 
-            aliquam distinctio magnam debitis optio similique! Maxime, officiis excepturi fuga cupiditate suscipit quasi 
-            neque aliquid commodi quidem fugiat ipsum! Vero cum illo neque tempore error, commodi nobis illum. 
-            Corrupti molestiae ea sint vel reiciendis voluptatem sequi illo cumque dignissimos porro, enim laboriosam maiores."
-        ],
-        [
-            "title" => "Judul Post Kedua",
-            "slug" => "judul-post-kedua",
-            "author" => "Cholifatul Solihah",
-            "body" => "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit quasi ipsa 
-            praesentium ratione eligendi quo deleniti culpa eum accusamus neque assumenda, 
-            kiero quod minus deserunt obcaecati non sint ipsam. Veritatis vitae rem quam magni ipsa sapiente a, 
-            aliquam distinctio magnam debitis optio similique! Maxime, officiis excepturi fuga cupiditate suscipit quasi 
-            neque aliquid commodi quidem fugiat ipsum! Vero cum illo neque tempore error, commodi nobis illum. 
-            Corrupti molestiae ea sint vel reiciendis voluptatem sequi illo cumque dignissimos porro, enim laboriosam maiores. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias magni sint tenetur voluptate veniam quam 
-            ullam architecto nesciunt numquam tempora qui debitis voluptatibus explicabo assumenda placeat dolorem quia, 
-            accusantium ratione sequi esse suscipit, animi vero. Laboriosam quisquam, cumque et alias, incidunt error harum
-             commodi quis natus officia a praesentium! Deleniti architecto quos dolorem, inventore sed voluptates eligendi 
-             vel quod molestias perspiciatis mollitia similique alias, soluta iusto maiores consectetur explicabo aut rem quidem eum voluptate accusamus. 
-             Perferendis atque sunt quaerat alias facilis soluta officiis laborum temporibus quas quos, exercitationem nulla nihil quasi, praesentium ab nisi, 
-             iusto molestias veniam sint esse! Excepturi."  
-            ]
-];
-    
-    return view('posts', [
-        "title" => "Posts",
-        "posts" => $blog_post
-    ]);
-});
-
-// halaman single post
-Route::get('posts/{slug}', function($slug) {
-   return view('post', [
-    "title" => "Single Post"
-   ]);
-});
+// Route::get('/blog', function () {
+//     return view('blog',[
+//         "nama" => "Afifah Fauziah",
+//         "email" => "afifahfauziah251@gmail.com",
+//         "gambar" => "me.jpg"
+//     ]);
+// });
+Route::get('/blog', [Artikelcontroller::class, 'index']);
+//halaman single post
 
 
-Route::get('/blog', function () {
-    return view('blog', [
-        "title" => "Post",
-        "posts" => Post::all()
-    ]);
-});
+Route::resource('/post', BlogController::class);
